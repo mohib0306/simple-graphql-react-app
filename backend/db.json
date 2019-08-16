@@ -1,0 +1,43 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "firstName": "Bob",
+      "age": 40,
+      "companyId": "101"
+    },
+    {
+      "id": "2",
+      "firstName": "Mike",
+      "age": 30,
+      "companyId": "102"
+    },
+    {
+      "firstName": "Alex",
+      "age": 12,
+      "id": "JFb0prX"
+    },
+    {
+      "firstName": "Alex",
+      "age": 12,
+      "id": "gOtR8G5"
+    }
+  ],
+  "companies": [
+    {
+      "id": "101",
+      "name": "Kiron",
+      "description": "Helping refugees to access higher education"
+    },
+    {
+      "id": "102",
+      "name": "Hamboldt University",
+      "description": "University in berlin"
+    },
+    {
+      "id": "103",
+      "name": "DB",
+      "description": "Deutsche Bahn"
+    }
+  ]
+}
