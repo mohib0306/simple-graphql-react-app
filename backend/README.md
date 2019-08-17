@@ -1,6 +1,6 @@
-# Backend
+# GraphQL Backend Server
 
-Backend is consist of a simple [express-graphql](https://github.com/graphql/express-graphql) server and a [json-server](https://github.com/typicode/json-server). The `json-server` acts as a data source that serves data in JSON format. The GraphQL uses [axios](https://github.com/axios/axios) to send requests to this `json-server`for fetching and editing data.
+Backend is consist of a simple [express-graphql](https://github.com/graphql/express-graphql) server and a [json-server](https://github.com/typicode/json-server). The `json-server` acts as a data source that serves data in JSON format. The GraphQL server uses [axios](https://github.com/axios/axios) to send requests to this `json-server`for fetching and editing data.
 
 ## Getting Started
 
@@ -22,6 +22,12 @@ _P.S. Make sure that you are in the backend directory while running the above co
 `db.json` has some sample data and you can add more data by editing the file and adding more _user_ or _company_ objects to their respective arrays.
 
 In your browser, visit [http://localhost:3000](http://localhost:3000 "JSON Server Backend")
+
+## Project structure
+
+- `types` includes GraphQL types
+- `inputs` includes GraphQL input types for mutations and filters
+- `mutations` includes mutations and result types for these mutations
 
 ## Acknowledgments
 
