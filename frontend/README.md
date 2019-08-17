@@ -1,4 +1,4 @@
-# React Frontend Application
+# React Frontend Application - Create React App
 
 React frontend application connects to GraphQL backend and serves user's requests.
 
