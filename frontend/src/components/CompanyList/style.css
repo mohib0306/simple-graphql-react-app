@@ -1,0 +1,11 @@
+.list {
+    text-align: center;
+}
+
+.listHeader {
+    min-height: 2em;
+    display: flex;
+    flex-direction: column;
+    font-size: 2em;
+    color: black;
+}

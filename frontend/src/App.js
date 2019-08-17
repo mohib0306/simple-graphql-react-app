@@ -1,16 +1,25 @@
 import React from "react";
+import { ApolloClient } from "apollo-client";
+import { InMemoryCache } from "apollo-cache-inmemory";
+import { HttpLink } from "apollo-link-http";
+import { ApolloProvider } from "react-apollo";
 import "./styles/index.css";
+import CompanyList from "./components/CompanyList";
 
-function App() {
+const cache = new InMemoryCache();
+const client = new ApolloClient({
+  cache,
+  link: new HttpLink({
+    uri: "http://localhost:4000/graphql"
+  })
+});
+
+const App = () => {
   return (
-    <div className="app">
-      <header className="app-header">
-        <p>
-          Start <code>coding</code>!
-        </p>
-      </header>
-    </div>
+    <ApolloProvider client={client}>
+      <CompanyList />
+    </ApolloProvider>
   );
-}
+};
 
 export default App;
