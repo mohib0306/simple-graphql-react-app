@@ -1,0 +1,6 @@
+{
+  "short_name": "Frontend",
+  "name": "Frontend of simple react-graphql app",
+  "start_url": ".",
+  "display": "standalone"
+}
