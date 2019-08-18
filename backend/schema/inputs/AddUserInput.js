@@ -9,11 +9,11 @@ const {
 
 const AddUserInput = new GraphQLInputObjectType({
   name: "AddUserInput",
-  description: "A collection of a new user creation fields.",
+  description: "A collection of a new user creation fields",
   fields: {
     firstName: {
       type: new GraphQLNonNull(GraphQLString),
-      description: "The first name of the new user."
+      description: "The first name of the new user"
     },
     age: {
       type: new GraphQLNonNull(GraphQLInt),
