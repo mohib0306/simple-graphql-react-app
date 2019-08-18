@@ -1,23 +1,34 @@
 import React, { Component } from "react";
 import gql from "graphql-tag";
 import { graphql } from "react-apollo";
-import "./style.css";
+import { Container, Header, Item } from "semantic-ui-react";
 
 class CompanyList extends Component {
   renderCompanies() {
-    return this.props.data.companies.map(company => {
-      return <li key={company.id}>{company.name} </li>;
-    });
+    return (
+      <Item.Group>
+        {this.props.data.companies.map(company => {
+          return (
+            <Item key={company.id}>
+              <Item.Content>
+                <Item.Header>{company.name}</Item.Header>
+                <Item.Description>{company.description}</Item.Description>
+              </Item.Content>
+            </Item>
+          );
+        })}
+      </Item.Group>
+    );
   }
   render() {
     if (this.props.data.loading) {
       return <div>Loading...</div>;
     }
     return (
-      <div className="list">
-        <div className="listHeader">Company List </div>
+      <Container textAlign="left">
+        <Header as="h3">List of companies</Header>
         {this.renderCompanies()}
-      </div>
+      </Container>
     );
   }
 }
@@ -27,6 +38,7 @@ const query = gql`
     companies {
       id
       name
+      description
     }
   }
 `;
