@@ -1,25 +1,16 @@
 import React from "react";
-import { ApolloClient } from "apollo-client";
-import { InMemoryCache } from "apollo-cache-inmemory";
-import { HttpLink } from "apollo-link-http";
-import { ApolloProvider } from "react-apollo";
-import "./styles/index.css";
+import { Route, Switch } from "react-router";
+import { Container } from "semantic-ui-react";
 import CompanyList from "./components/CompanyList";
+import CreateCompany from "./components/Company/CreateCompany";
 
-const cache = new InMemoryCache();
-const client = new ApolloClient({
-  cache,
-  link: new HttpLink({
-    uri: "http://localhost:4000/graphql"
-  })
-});
-
-const App = () => {
+export default () => {
   return (
-    <ApolloProvider client={client}>
-      <CompanyList />
-    </ApolloProvider>
+    <Container textAlign="left">
+      <Switch>
+        <Route path="/company/create" component={CreateCompany} />
+        <Route path="/" component={CompanyList} />
+      </Switch>
+    </Container>
   );
 };
-
-export default App;

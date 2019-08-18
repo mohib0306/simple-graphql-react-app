@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import gql from "graphql-tag";
 import { graphql } from "react-apollo";
-import { Container, Header, Item } from "semantic-ui-react";
+import { Header, Item } from "semantic-ui-react";
 
 class CompanyList extends Component {
   renderCompanies() {
@@ -25,10 +25,10 @@ class CompanyList extends Component {
       return <div>Loading...</div>;
     }
     return (
-      <Container textAlign="left">
-        <Header as="h3">List of companies</Header>
+      <div>
+        <Header as="h1">List of companies</Header>
         {this.renderCompanies()}
-      </Container>
+      </div>
     );
   }
 }
