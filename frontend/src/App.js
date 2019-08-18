@@ -8,7 +8,7 @@ export default () => {
   return (
     <Container textAlign="left">
       <Switch>
-        <Route path="/company/create" component={CreateCompany} />
+        <Route path="/companies/create" component={CreateCompany} />
         <Route path="/" component={CompanyList} />
       </Switch>
     </Container>

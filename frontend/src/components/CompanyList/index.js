@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import gql from "graphql-tag";
 import { graphql } from "react-apollo";
-import { Header, Item } from "semantic-ui-react";
+import { Link } from "react-router-dom";
+import { Header, Item, Button, Icon } from "semantic-ui-react";
+import { companiesQuery } from "./definitions.graphql.js";
 
 class CompanyList extends Component {
   renderCompanies() {
@@ -28,18 +29,15 @@ class CompanyList extends Component {
       <div>
         <Header as="h1">List of companies</Header>
         {this.renderCompanies()}
+        <Link to="/companies/create">
+          <Button primary icon size="big" labelPosition="left" floated="right">
+            Add new company
+            <Icon name="plus" />
+          </Button>
+        </Link>
       </div>
     );
   }
 }
 
-const query = gql`
-  {
-    companies {
-      id
-      name
-      description
-    }
-  }
-`;
-export default graphql(query)(CompanyList);
+export default graphql(companiesQuery)(CompanyList);
