@@ -2,18 +2,41 @@ import React, { Component } from "react";
 import { graphql } from "react-apollo";
 import { Link } from "react-router-dom";
 import { Header, Item, Button, Icon } from "semantic-ui-react";
-import { companiesQuery } from "./definitions.graphql.js";
+import {
+  companiesQuery,
+  deleteCompanyMutation
+} from "./definitions.graphql.js";
 
 class CompanyList extends Component {
+  onDeleteCompany(id) {
+    this.props
+      .mutate({
+        variables: { id }
+      })
+      .then(() => this.props.data.refetch());
+  }
   renderCompanies() {
     return (
-      <Item.Group>
+      <Item.Group divided>
         {this.props.data.companies.map(company => {
           return (
             <Item key={company.id}>
               <Item.Content>
-                <Item.Header>{company.name}</Item.Header>
-                <Item.Description>{company.description}</Item.Description>
+                <Link to={`/companies/${company.id}`}>
+                  <Item.Header>{company.name}</Item.Header>
+                </Link>
+                <Item.Description>
+                  {company.description}
+                  <Button
+                    floated="right"
+                    circular
+                    icon="trash"
+                    size="big"
+                    type="submit"
+                    color="red"
+                    onClick={() => this.onDeleteCompany(company.id)}
+                  />
+                </Item.Description>
               </Item.Content>
             </Item>
           );
@@ -40,4 +63,6 @@ class CompanyList extends Component {
   }
 }
 
-export default graphql(companiesQuery)(CompanyList);
+export default graphql(deleteCompanyMutation)(
+  graphql(companiesQuery)(CompanyList)
+);

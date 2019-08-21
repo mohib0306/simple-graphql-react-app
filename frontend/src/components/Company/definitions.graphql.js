@@ -9,3 +9,13 @@ export const addCompanyMutation = gql`
     }
   }
 `;
+
+export const companyQuery = gql`
+  query companyQuery($id: ID!) {
+    company(id: $id) {
+      id
+      name
+      description
+    }
+  }
+`;
