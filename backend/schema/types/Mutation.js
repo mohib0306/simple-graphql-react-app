@@ -6,6 +6,7 @@ const AddCompanyInput = require("../inputs/AddCompanyInput");
 const UpdateUserInput = require("../inputs/UpdateUserInput");
 const UpdateCompanyInput = require("../inputs/UpdateCompanyInput");
 const DeleteUserResult = require("../mutations/DeleteUserResult");
+const DeleteCompanyResult = require("../mutations/DeleteCompanyResult");
 const User = require("./User");
 const Company = require("./Company");
 
@@ -61,7 +62,7 @@ const Mutation = new GraphQLObjectType({
     },
     deleteUser: {
       type: new GraphQLNonNull(DeleteUserResult),
-      description: "Add a new user to our data set",
+      description: "Delete a user from our data set",
       args: {
         id: {
           type: new GraphQLNonNull(GraphQLID),
@@ -141,6 +142,44 @@ const Mutation = new GraphQLObjectType({
           .then(response => response.data)
           .catch(error => {
             throw new Error(`${error}`);
+          });
+      }
+    },
+    deleteCompany: {
+      type: new GraphQLNonNull(DeleteCompanyResult),
+      description: "Delete a company from our data set",
+      args: {
+        id: {
+          type: new GraphQLNonNull(GraphQLID),
+          description: "ID of the company that should be deleted"
+        }
+      },
+      async resolve(parent, { id }) {
+        await axios
+          .get(`http://localhost:3000/companies/${id}`)
+          .catch(error => {
+            if (error.response.status === 404) {
+              throw new Error(
+                `company with id = ${id} not found. Please check the ID and enter correct information`
+              );
+            }
+            throw new Error(`${error}`);
+          });
+        return axios
+          .delete(`http://localhost:3000/companies/${id}`)
+          .then(response => {
+            if (response.status === 200) {
+              return {
+                success: true,
+                errors: []
+              };
+            }
+          })
+          .catch(error => {
+            return {
+              success: false,
+              errors: [new Error(`${error}`)]
+            };
           });
       }
     }
