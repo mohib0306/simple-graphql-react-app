@@ -8,6 +8,7 @@ const {
   GraphQLList
 } = graphql;
 const User = require("./User");
+const Review = require("./Review");
 
 const Company = new GraphQLObjectType({
   name: "Company",
@@ -26,11 +27,28 @@ const Company = new GraphQLObjectType({
       description: "A brief information about this company"
     },
     users: {
-      type: new GraphQLNonNull(new GraphQLList(User)),
+      type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(User))),
       description: "List of the users who work at this company",
       resolve(parent) {
         return axios
           .get(`http://localhost:3000/companies/${parent.id}/users`)
+          .then(result => result.data)
+          .catch(error => {
+            if (error.response.status === 404) {
+              return [];
+            } else {
+              // Something happened that triggered an Error
+              throw new Error(`Error: ${error.message}`);
+            }
+          });
+      }
+    },
+    reviews: {
+      type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(Review))),
+      description: "List of the reviews that people added for this company",
+      resolve(parent) {
+        return axios
+          .get(`http://localhost:3000/companies/${parent.id}/reviews`)
           .then(result => result.data)
           .catch(error => {
             if (error.response.status === 404) {
