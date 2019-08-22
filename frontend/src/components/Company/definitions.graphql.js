@@ -16,6 +16,19 @@ export const companyQuery = gql`
       id
       name
       description
+      reviews {
+        id
+        content
+      }
+    }
+  }
+`;
+
+export const addReviewMutation = gql`
+  mutation addReviewMutation($company: ID!, $content: String!) {
+    addReview(company: $company, content: $content) {
+      id
+      content
     }
   }
 `;

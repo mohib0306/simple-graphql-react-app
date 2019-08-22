@@ -3,6 +3,7 @@ import { graphql } from "react-apollo";
 import { Link } from "react-router-dom";
 import { Header, Button, Loader, Icon, Message } from "semantic-ui-react";
 import { companyQuery } from "./definitions.graphql";
+import Review from "./Review";
 
 class CompanyDetail extends Component {
   render() {
@@ -36,6 +37,7 @@ class CompanyDetail extends Component {
         <Header as="h1">Company Details</Header>{" "}
         <Header as="h3">{company.name}</Header>
         <p>{company.description}</p>
+        <Review company={company.id} reviews={company.reviews} />
       </div>
     );
   }
