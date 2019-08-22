@@ -1,5 +1,5 @@
 const graphql = require("graphql");
-const { GraphQLObjectType, GraphQLID, GraphQLNonNull } = graphql;
+const { GraphQLObjectType, GraphQLID, GraphQLNonNull, GraphQLString } = graphql;
 const axios = require("axios");
 const AddUserInput = require("../inputs/AddUserInput");
 const AddCompanyInput = require("../inputs/AddCompanyInput");
@@ -9,6 +9,7 @@ const DeleteUserResult = require("../mutations/DeleteUserResult");
 const DeleteCompanyResult = require("../mutations/DeleteCompanyResult");
 const User = require("./User");
 const Company = require("./Company");
+const Review = require("./Review");
 
 const Mutation = new GraphQLObjectType({
   name: "Mutation",
@@ -181,6 +182,28 @@ const Mutation = new GraphQLObjectType({
               errors: [new Error(`${error}`)]
             };
           });
+      }
+    },
+    addReview: {
+      type: new GraphQLNonNull(Review),
+      description: "Add a review for a company to our data set",
+      args: {
+        company: {
+          type: new GraphQLNonNull(GraphQLID),
+          description: "ID of the company for which the review is submitted"
+        },
+        content: {
+          type: new GraphQLNonNull(GraphQLString),
+          description: "The content of the review"
+        }
+      },
+      resolve(parent, { company, content }) {
+        return axios
+          .post(`http://localhost:3000/companies/${company}/reviews/`, {
+            content
+          })
+          .then(response => response.data)
+          .catch(error => new Error(`Error: ${error.messge}`));
       }
     }
   }
