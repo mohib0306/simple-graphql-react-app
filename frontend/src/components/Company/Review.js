@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 import { graphql } from "react-apollo";
-import { Form, Button, Segment, Header } from "semantic-ui-react";
-import { addReviewMutation, companyQuery } from "./definitions.graphql";
+import { Form, Button, Segment, Header, Label } from "semantic-ui-react";
+import {
+  addReviewMutation,
+  companyQuery,
+  rateReviewMutation
+} from "./definitions.graphql";
 import "./style.css";
 
 class Review extends Component {
@@ -9,29 +13,65 @@ class Review extends Component {
     super(props);
     this.state = { content: "" };
   }
-  renderReviews(reviews) {
-    return (
-      <div className="reviews">
-        <Header as="h3">Reviews</Header>
-        {reviews.map(review => {
-          return <Segment padded>{review.content}</Segment>;
-        })}
-      </div>
-    );
-  }
-  onSubmit(event) {
-    event.preventDefault();
+  onLike(id) {
     this.props
       .mutate({
+        mutation: rateReviewMutation,
         variables: {
-          company: this.props.company,
-          content: this.state.content
+          review: id,
+          like: true
         },
         refetchQueries: () => [
           { query: companyQuery, variables: { id: this.props.company } }
         ]
       })
       .then(() => this.setState({ content: "" }));
+  }
+  renderReviews(reviews) {
+    return (
+      <div className="reviews">
+        <Header as="h3">Reviews</Header>
+        {reviews.map(review => {
+          return (
+            <Segment key={review.id} padded="very">
+              {review.content}
+              <div className="ratingsWrapper">
+                <Button
+                  className="ratingButton"
+                  floated="right"
+                  circular
+                  type="submit"
+                  icon="thumbs up"
+                  color="blue"
+                  onClick={() => this.onLike(review.id)}
+                />
+                {review.likes > 0 && (
+                  <Label className="ratingLabel" color="red" floating>
+                    {review.likes}
+                  </Label>
+                )}
+              </div>
+            </Segment>
+          );
+        })}
+      </div>
+    );
+  }
+  onSubmit(event) {
+    event.preventDefault();
+    this.state.content &&
+      this.props
+        .mutate({
+          mutation: addReviewMutation,
+          variables: {
+            company: this.props.company,
+            content: this.state.content
+          },
+          refetchQueries: () => [
+            { query: companyQuery, variables: { id: this.props.company } }
+          ]
+        })
+        .then(() => this.setState({ content: "" }));
   }
   render() {
     return (
@@ -57,4 +97,4 @@ class Review extends Component {
   }
 }
 
-export default graphql(addReviewMutation)(Review);
+export default graphql(rateReviewMutation)(graphql(addReviewMutation)(Review));

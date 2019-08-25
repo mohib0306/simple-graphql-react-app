@@ -19,6 +19,9 @@ export const companyQuery = gql`
       reviews {
         id
         content
+        likes: ratings(like: true)
+        dislikes: ratings(like: false)
+        allRatings: ratings
       }
     }
   }
@@ -29,6 +32,17 @@ export const addReviewMutation = gql`
     addReview(company: $company, content: $content) {
       id
       content
+    }
+  }
+`;
+export const rateReviewMutation = gql`
+  mutation rateReviewMutation($review: ID!, $like: Boolean!) {
+    rateReview(review: $review, like: $like) {
+      id
+      content
+      likes: ratings(like: true)
+      dislikes: ratings(like: false)
+      allRatings: ratings
     }
   }
 `;

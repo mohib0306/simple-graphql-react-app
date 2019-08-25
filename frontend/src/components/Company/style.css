@@ -2,3 +2,17 @@
 .reviewForm {
     margin-top: 4em;
 }
+
+.ratingButton {
+    margin-top: -.5em !important;
+}
+
+.ratingsWrapper {
+    float: right
+}
+
+.ratingLabel {
+    position: relative !important;
+    top: -2.1em !important;
+    left: 122% !important;
+}
