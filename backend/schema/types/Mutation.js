@@ -1,5 +1,11 @@
 const graphql = require("graphql");
-const { GraphQLObjectType, GraphQLID, GraphQLNonNull, GraphQLString } = graphql;
+const {
+  GraphQLObjectType,
+  GraphQLID,
+  GraphQLNonNull,
+  GraphQLString,
+  GraphQLBoolean
+} = graphql;
 const axios = require("axios");
 const AddUserInput = require("../inputs/AddUserInput");
 const AddCompanyInput = require("../inputs/AddCompanyInput");
@@ -203,6 +209,34 @@ const Mutation = new GraphQLObjectType({
             content
           })
           .then(response => response.data)
+          .catch(error => new Error(`Error: ${error.messge}`));
+      }
+    },
+    rateReview: {
+      type: new GraphQLNonNull(Review),
+      description: "Like or dislike a review for a company in our data set",
+      args: {
+        review: {
+          type: new GraphQLNonNull(GraphQLID),
+          description: "ID of the review for which is rated"
+        },
+        like: {
+          type: new GraphQLNonNull(GraphQLBoolean),
+          description: "The rating (like/dislike) of the review"
+        }
+      },
+      resolve(parent, { review, like }) {
+        return axios
+          .post(`http://localhost:3000/reviews/${review}/review_ratings/`, {
+            like
+          })
+          .then(
+            response =>
+              response &&
+              axios
+                .get(`http://localhost:3000/reviews/${review}`)
+                .then(result => result.data)
+          )
           .catch(error => new Error(`Error: ${error.messge}`));
       }
     }
