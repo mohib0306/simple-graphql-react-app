@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { graphql } from "react-apollo";
-import { Form, Button, Comment, Header } from "semantic-ui-react";
+import { Form, Button, Segment, Header } from "semantic-ui-react";
 import { addReviewMutation, companyQuery } from "./definitions.graphql";
+import "./style.css";
 
 class Review extends Component {
   constructor(props) {
@@ -10,20 +11,12 @@ class Review extends Component {
   }
   renderReviews(reviews) {
     return (
-      <Comment.Group>
-        <Header as="h3" dividing>
-          Reviews
-        </Header>
+      <div className="reviews">
+        <Header as="h3">Reviews</Header>
         {reviews.map(review => {
-          return (
-            <Comment key={review.id}>
-              <Comment.Content>
-                <Comment.Text>{review.content}</Comment.Text>
-              </Comment.Content>
-            </Comment>
-          );
+          return <Segment padded>{review.content}</Segment>;
         })}
-      </Comment.Group>
+      </div>
     );
   }
   onSubmit(event) {
@@ -45,7 +38,7 @@ class Review extends Component {
       <div>
         {this.props.reviews.length > 0 &&
           this.renderReviews(this.props.reviews)}
-        <Form onSubmit={this.onSubmit.bind(this)}>
+        <Form onSubmit={this.onSubmit.bind(this)} className="reviewForm">
           <Form.TextArea
             placeholder="Tell us your experience"
             value={this.state.content}
